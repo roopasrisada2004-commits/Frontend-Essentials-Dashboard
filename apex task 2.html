@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task 2 | Frontend Practice Project</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      background: #1f3c88;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+      color: #1f3c88;
+      border-bottom: 2px solid #1f3c88;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* Form */
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    form textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    form button {
+      margin-top: 15px;
+      padding: 12px;
+      width: 100%;
+      background: #1f3c88;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    form button:hover {
+      background: #162c66;
+    }
+
+    #formMsg {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    /* To-do */
+    .todo-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .todo-input input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .todo-input button {
+      padding: 12px 18px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .todo-input button:hover {
+      background: #1f8b38;
+    }
+
+    ul {
+      margin-top: 20px;
+    }
+
+    ul li {
+      list-style: none;
+      background: #f4f6f9;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    ul li button {
+      background: #dc3545;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    ul li button:hover {
+      background: #b52a37;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #1f3c88;
+      color: white;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  Frontend Practice Project — Task 2
+</header>
+
+<div class="container">
+
+  <!-- Contact Form -->
+  <div class="card">
+    <h2>Contact Form</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="email" id="email" placeholder="Email Address">
+      <textarea id="message" placeholder="Your Message"></textarea>
+      <button type="submit">Submit Message</button>
+      <p id="formMsg"></p>
+    </form>
+  </div>
+
+  <!-- To Do -->
+  <div class="card">
+    <h2>To-Do List</h2>
+    <div class="todo-input">
+      <input type="text" id="taskInput" placeholder="Enter your task">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+</div>
+
+<footer>
+  Task 2 Project | HTML • CSS • JavaScript
+</footer>
+
+<script>
+  // Form Validation
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let message = document.getElementById("message").value.trim();
+    let msg = document.getElementById("formMsg");
+
+    if (name === "" || email === "" || message === "") {
+      msg.style.color = "red";
+      msg.textContent = "Please fill all fields.";
+      return;
+    }
+
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if (!email.match(emailPattern)) {
+      msg.style.color = "red";
+      msg.textContent = "Please enter a valid email.";
+      return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Form submitted successfully!";
+  });
+
+  // To Do List
+  function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskText = taskInput.value.trim();
+
+    if (taskText === "") return;
+
+    let li = document.createElement("li");
+    li.innerHTML = `${taskText} <button onclick="removeTask(this)">Delete</button>`;
+
+    document.getElementById("taskList").appendChild(li);
+    taskInput.value = "";
+  }
+
+  function removeTask(btn) {
+    btn.parentElement.remove();
+  }
+</script>
+
+</body>
+</html>
